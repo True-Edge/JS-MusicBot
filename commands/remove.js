@@ -7,8 +7,12 @@ module.exports = {
         if (player.queue == 0) {
             return message.reply("Queue Empty!")
         } else {
-            player.queue.remove(parseInt(args))
-            message.reply("Removed track from queue!")
+            try {
+                player.queue.remove((parseInt(args) - 1))
+                message.reply("Removed track from queue!")
+            } catch (error) {
+                message.channel.send("Track you're trying to remove is out of range!")
+            }
         }
     }
 }

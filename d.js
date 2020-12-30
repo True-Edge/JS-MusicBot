@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { Client, Collection } = require('discord.js');
+const { Client, Collection, MessageEmbed } = require('discord.js');
 const client = new Client();
 
 const { Manager } = require("erela.js")
@@ -22,8 +22,11 @@ client.Music.on("nodeConnect", node => console.log(`Node ${node.options.identifi
 client.Music.on("nodeError", (node, error) => console.log(`Node ${node.options.identifier} had an error: ${error.message}`))
 client.Music.on("trackStart", (player, track) => {
     client.channels.cache
-      .get(player.textChannel)
-      .send(`Now playing: ${track.title}`);
+    const v = client.channels.cache.get(player.textChannel)
+    const embed = new MessageEmbed();
+    embed.setDescription(`Now Playing: ${track.title}`);
+    embed.setFooter(`Requseter: ${track.requester.username}`);
+    v.send(embed);
     })
 client.Music.on("queueEnd", (player) => {
     client.channels.cache
