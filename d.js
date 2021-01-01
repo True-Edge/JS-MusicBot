@@ -1,7 +1,6 @@
 require('dotenv').config()
 const { Client, Collection, MessageEmbed } = require('discord.js');
 const client = new Client();
-const embed = new MessageEmbed();
 
 const { Manager } = require("erela.js")
 client.Music = new Manager({
@@ -24,26 +23,29 @@ client.Music.on("nodeError", (node, error) => console.log(`Node ${node.options.i
 client.Music.on("trackStart", (player, track) => {
     client.channels.cache
     const v = client.channels.cache.get(player.textChannel)
+    const embed = new MessageEmbed();
     embed.setDescription(`Now Playing: ${track.title}`);
     embed.setFooter(`Requseter: ${track.requester.username}`);
     v.send(embed);
-    })
+    });
 client.Music.on("queueEnd", (player) => {
     var msg = client.channels.cache.get(player.textChannel)
     msg.send("Queue has ended.");
     player = client.Music.get(player.guild)
+    const embed = new MessageEmbed();
     if (player.queue.length == 0) {
         setTimeout(() => {
             if (player.queue.length != 0) {
                 return;
             } else {
                 embed.setDescription("Looks like the queue is empty after 5 mins.\nDisconnecting to save my bandwidth. Not cheap ya know?")
+                embed.setFooter("Disconnect Reason: Inactvity in voice.")
                 msg.send(embed)
                 player.destroy();
             }
-        }, 300000)
+        }, 5000);
     }     
-})
+});
 
 const fs = require('fs');
 client.commands = new Collection();
