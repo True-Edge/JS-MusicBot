@@ -9,13 +9,13 @@ module.exports = {
 
         const embed = new MessageEmbed()
             .setDescription("Diconnected on request.")
+            .setFooter(`Requested By: ${message.author.username}`, message.author.avatarURL())
 
         if (player) {
             await message.channel.send(embed)
             player.destroy();
         } else {
             embed.setDescription("404 Player Not Found.")
-                .setFooter(`Requested By: ${message.author.username}`, message.author.avatarURL())
             await message.channel.send(embed)
         }
     }
