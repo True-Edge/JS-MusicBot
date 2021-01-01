@@ -11,6 +11,8 @@ module.exports = {
             guild: message.guild.id,
             voiceChannel: message.member.voice.channel.id,
             textChannel: message.channel.id,
+            selfDeafen: true,
+            volume: 50
         });
         
         const res = await player.search(
@@ -21,7 +23,7 @@ module.exports = {
         if (player.state != 'CONNECTED') { await player.connect();}
 
         const embed = new MessageEmbed();
-
+        
         if (res.loadType == 'LOAD_FAILED') {
             if (!player.queue.current) {player.destroy()};
             message.reply("There was an error occured during loading track.");

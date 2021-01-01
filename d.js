@@ -29,10 +29,22 @@ client.Music.on("trackStart", (player, track) => {
     v.send(embed);
     })
 client.Music.on("queueEnd", (player) => {
-    client.channels.cache
-      .get(player.textChannel)
-      .send("Queue has ended.");
-    })
+    const embed = new MessageEmbed();
+    var msg = client.channels.cache.get(player.textChannel)
+    msg.send("Queue has ended.");
+    player = client.Music.get(player.guild)
+    if (player.queue.length == 0) {
+        setTimeout(() => {
+            if (player.queue.length != 0) {
+                return;
+            } else {
+                embed.setDescription("Looks like the queue is empty after 5 mins.\nDisconnecting to save my bandwidth. Not cheap ya know?")
+                msg.send("Disconneting to save bandwidth...")
+                player.destroy();
+            }
+        }, 300000)
+    }     
+})
 
 const fs = require('fs');
 client.commands = new Collection();
