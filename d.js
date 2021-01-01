@@ -38,7 +38,7 @@ client.Music.on("queueEnd", (player) => {
                 return;
             } else {
                 embed.setDescription("Looks like the queue is empty after 5 mins.\nDisconnecting to save my bandwidth. Not cheap ya know?")
-                msg.send("Disconneting to save bandwidth...")
+                msg.send(embed)
                 player.destroy();
             }
         }, 300000)
