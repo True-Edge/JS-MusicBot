@@ -1,3 +1,5 @@
 #!/bin/bash
-tmux new-session -d -s lavalink 'cd Lavalink && ./startLava.sh'
-tmux new-session -d -s bot './startBot.sh'
+tmux \
+    new-session -s BWL "cd Lavalink; ./startLava.sh" \; \
+    split-window -t BWL "./startBot.sh" \; \
+    ls \; \
